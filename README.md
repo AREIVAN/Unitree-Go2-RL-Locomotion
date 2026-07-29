@@ -139,6 +139,40 @@ La tarea utilizada por este proyecto es:
 Unitree-Go2-Flat
 ```
 
+El entrenamiento corresponde a una política de **seguimiento de velocidad**
+para el Go2. En la configuración registrada de la ejecución se utilizaron:
+
+| Parámetro | Valor |
+|---|---:|
+| Nombre del experimento | `go2_velocity` |
+| Entornos paralelos | `256` |
+| Paso de física | `0.005 s` |
+| Paso del entorno | `0.02 s` |
+| Duración de episodio | `20 s` |
+| Velocidad lineal `x` | `[-1.0, 2.0] m/s` |
+| Velocidad lineal `y` | `[-1.0, 1.0] m/s` |
+| Velocidad angular `z` | `[-1.0, 1.0] rad/s` |
+
+El flujo de entrenamiento es:
+
+```bash
+cd ~/unitree_project/unitree_rl_mjlab
+conda activate unitree_rl_mjlab
+
+# Opcional: mantener W&B completamente local.
+wandb offline
+
+# La tarea se selecciona por su identificador; las opciones adicionales
+# dependen de la revisión local del repositorio.
+python scripts/train.py Unitree-Go2-Flat --help
+python scripts/train.py Unitree-Go2-Flat
+```
+
+Durante el entrenamiento, RSL-RL guarda periódicamente los pesos y la
+configuración en `logs/rsl_rl`. La ejecución documentada llegó al checkpoint
+`model_10000.pt`. Los datos de W&B permanecen en `wandb/offline-run-*` y no es
+necesario ejecutar `wandb sync` para probar el modelo localmente.
+
 La entrada de entrenamiento es `scripts/train.py`. Consulta las opciones
 disponibles en la revisión local del repositorio:
 
